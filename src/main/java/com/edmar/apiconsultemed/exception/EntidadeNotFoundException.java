@@ -8,5 +8,5 @@ public class EntidadeNotFoundException extends RuntimeException {
 	
 	public EntidadeNotFoundException(String erro) {
 		super(erro); 
-	}
+	} 
 }
