@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.edmar.apiconsultemed.consulta.service.ConsultaService;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
 import com.edmar.apiconsultemed.paciente.Paciente;
 import com.edmar.apiconsultemed.paciente.infraestructure.PacienteRepository;
@@ -28,6 +29,9 @@ public class PacienteService extends ServicoGenerico<Paciente, Long> {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private ConsultaService consultaService;
 
 	@Override
 	public GenericRepository<Paciente, Long> getRepository() {
@@ -66,5 +70,18 @@ public class PacienteService extends ServicoGenerico<Paciente, Long> {
 		}
 		
 		return mensagemUsuario ;
+	}
+	
+	@Transactional()
+	public String excluirPaciente(final Long id) {
+		
+		final boolean existePacienteVinculadoAconsulta = this.consultaService.existePacienteVinculadoAconsulta(id);
+		
+		if (existePacienteVinculadoAconsulta) {
+			return "Este paciente não pode ser excluído porque está vinculado a uma consulta";
+		}
+		
+		this.remover(id);
+		return "Paciente excluído com sucesso!";
 	}
 }

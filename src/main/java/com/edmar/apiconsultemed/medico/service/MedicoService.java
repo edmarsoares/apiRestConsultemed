@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.edmar.apiconsultemed.consulta.service.ConsultaService;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
 import com.edmar.apiconsultemed.medico.Medico;
 import com.edmar.apiconsultemed.medico.infraestructure.MedicoRepository;
@@ -25,6 +26,9 @@ public class MedicoService extends ServicoGenerico<Medico, Long> {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private ConsultaService consultaService;
 	
 	@Override
 	public GenericRepository<Medico, Long> getRepository() {
@@ -46,15 +50,10 @@ public class MedicoService extends ServicoGenerico<Medico, Long> {
 	}
 
 	@Transactional
-	public String salvarMedico(Medico medico) {
-		String mensagemUsuario = this.usuarioService.prepararParaPersistir(medico.getPessoa().getUsuario());
-		
-		if (mensagemUsuario.equals("")) {
-			this.medicoRepository.save(medico);
-			return "";
-		}
-		
-		return mensagemUsuario;
+	@Override
+	public void salvar(final Medico medico) {
+//		String mensagemUsuario = this.usuarioService.prepararParaPersistir(medico.getPessoa().getUsuario());
+		this.medicoRepository.save(medico);		
 	}
 	
 }

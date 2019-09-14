@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,6 +99,11 @@ public class ConsultaService extends ServicoGenerico<Consulta, Long> {
 	@Transactional(readOnly=true)
 	public List<Consulta> filtrarConsultaPorMedicoComData(final Long idMedico){
 		return this.consultaRepository.filtrarConsultaPorMedicoComData(idMedico);
+	}
+	
+	@Transactional
+	public boolean existePacienteVinculadoAconsulta(final long id) {
+		return this.existePacienteVinculadoAconsulta(id);
 	}
 
 }
