@@ -1,4 +1,4 @@
-package com.edmar.apiconsultemed.funcionario.controller;
+package com.edmar.apiconsultemed.funcionario.resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ import com.edmar.apiconsultemed.funcionario.service.FuncionarioService;
 
 @Controller
 @RequestMapping("/funcionario")
-public class FuncionarioController {
+public class FuncionarioResource {
 
 	private static final String PAGES_NOVO_FUNCIONARIO = "pages/funcionario/novo_funcionario";
 

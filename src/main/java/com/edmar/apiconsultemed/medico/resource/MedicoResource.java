@@ -1,4 +1,4 @@
-package com.edmar.apiconsultemed.medico.controller;
+package com.edmar.apiconsultemed.medico.resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,16 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.edmar.apiconsultemed.medico.Medico;
 import com.edmar.apiconsultemed.medico.service.MedicoService;
 
-@Controller
+@RestController
 @RequestMapping("/medicos")
-public class MedicoController {
+public class MedicoResource {
 	
 	@Autowired
-	MedicoService medicoService;
+	private MedicoService medicoService;
 	
 	@PostMapping
 	public ResponseEntity<?> salvar(@RequestBody Medico medico){

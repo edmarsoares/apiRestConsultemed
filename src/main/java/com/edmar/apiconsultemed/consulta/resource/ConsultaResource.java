@@ -1,4 +1,4 @@
-package com.edmar.apiconsultemed.consulta.controller;
+package com.edmar.apiconsultemed.consulta.resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +27,7 @@ import com.edmar.apiconsultemed.paciente.Paciente;
 import com.edmar.apiconsultemed.paciente.service.PacienteService;
 @Controller
 @RequestMapping("/consulta")
-public class ConsultaController {
+public class ConsultaResource {
 	
 	private static final String PAGES_NOVO_CONSULTA = "pages/consulta/nova_consulta";
 
