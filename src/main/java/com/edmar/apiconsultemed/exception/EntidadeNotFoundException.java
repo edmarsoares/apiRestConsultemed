@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class EntidadeNotFoundException extends RuntimeException {
 	
 	public EntidadeNotFoundException(String erro) {
-		super(erro);
+		super(erro); 
 	}
 }
