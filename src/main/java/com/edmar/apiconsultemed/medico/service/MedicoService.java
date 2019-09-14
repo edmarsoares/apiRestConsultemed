@@ -52,7 +52,7 @@ public class MedicoService extends ServicoGenerico<Medico, Long> {
 	@Transactional
 	@Override
 	public void salvar(final Medico medico) {
-//		String mensagemUsuario = this.usuarioService.prepararParaPersistir(medico.getPessoa().getUsuario());
+		this.usuarioService.prepararParaPersisti(medico.getPessoa().getUsuario());
 		this.medicoRepository.save(medico);		
 	}
 	

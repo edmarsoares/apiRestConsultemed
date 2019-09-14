@@ -17,6 +17,7 @@ import com.edmar.apiconsultemed.agendamento.Agendamento;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
 import com.edmar.apiconsultemed.service.ServicoGenerico;
 import com.edmar.apiconsultemed.usuario.Usuario;
+import com.edmar.apiconsultemed.usuario.exception.UsuarioException;
 import com.edmar.apiconsultemed.usuario.infraestructure.UsuarioRepository;
 
 @Service
@@ -55,6 +56,26 @@ public class UsuarioService extends ServicoGenerico<Usuario, Long> {
 		
 		return "";
 	}
+	
+	@Transactional
+	public void prepararParaPersisti(final Usuario usuario) {
+		String loginAntigo = "";
+		
+		if (usuario.getId() != null) {
+			
+			final Optional<Usuario> usuarioDB  = this.buscarPorId(usuario.getId());
+
+			loginAntigo = usuarioDB.get().getLogin();
+		}
+		
+		final boolean existeLogin = this.usuarioRepository.verificarExistenciaLogin(usuario.getLogin(), loginAntigo);
+		
+		if (existeLogin) {
+			throw new UsuarioException("Este login já existe no sistema");
+		}
+		
+	}
+	
 	
 	/**
 	 * Método responsável poe envio de email a um paciente específico

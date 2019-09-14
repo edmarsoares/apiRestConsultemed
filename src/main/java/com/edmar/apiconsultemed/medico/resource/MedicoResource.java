@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edmar.apiconsultemed.medico.Medico;
+import com.edmar.apiconsultemed.medico.dto.MedicoCreateDTO;
 import com.edmar.apiconsultemed.medico.service.MedicoService;
 
 @RestController
@@ -27,7 +28,8 @@ public class MedicoResource {
 	private MedicoService medicoService;
 	
 	@PostMapping
-	public ResponseEntity<?> salvar(@RequestBody Medico medico){
+	public ResponseEntity<?> salvar(@RequestBody MedicoCreateDTO medicoDto){
+		Medico medico = medicoDto.converteToMedico();
 		this.medicoService.salvar(medico);	
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
