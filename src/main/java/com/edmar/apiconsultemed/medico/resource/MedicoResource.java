@@ -20,7 +20,7 @@ import com.edmar.apiconsultemed.medico.Medico;
 import com.edmar.apiconsultemed.medico.service.MedicoService;
 
 @RestController
-@RequestMapping("/api/medicos")
+@RequestMapping("/medicos")
 public class MedicoResource {
 	
 	@Autowired
