@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.edmar.apiconsultemed.agendamento.StatusAgendamento;
 import com.edmar.apiconsultemed.consulta.Consulta;
+import com.edmar.apiconsultemed.consulta.exception.ConsultaException;
 import com.edmar.apiconsultemed.consulta.infraestructure.ConsultaRepository;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
 import com.edmar.apiconsultemed.service.ServicoGenerico;
@@ -54,11 +55,11 @@ public class ConsultaService extends ServicoGenerico<Consulta, Long> {
 	}
 
 	@Transactional
-	public String salvarConsulta(final Consulta consulta) {
+	@Override
+	public void salvar(final Consulta consulta) {
 
 		if (consulta.getId() != null) {
 			consulta.getAgendamento().setStatus(StatusAgendamento.REAGENDADO);
-
 		} else {
 			consulta.getAgendamento().setStatus(StatusAgendamento.AGENDADO);
 		}
@@ -70,14 +71,14 @@ public class ConsultaService extends ServicoGenerico<Consulta, Long> {
 		final boolean existeConsulta = this.existeConsultaComHoraEData(dataAgendamento, hora, idMedico);
 
 		if (existeConsulta) {
-			return "Já existe uma consulta nesta data, no mesmo horario, com este médico";
+			throw new ConsultaException("Já existe uma consulta nesta data e hora para este médico");
 		}
 		
 		final String emailFromPaciente = consulta.getAgendamento().getPaciente().getPessoa().getUsuario().getLogin();
 
 		this.usuarioService.sendMail(emailFromPaciente , consulta.getAgendamento());
-		this.salvar(consulta);
-		return "";
+		this.consultaRepository.save(consulta);
+		
 	}
 	
 	@Transactional
