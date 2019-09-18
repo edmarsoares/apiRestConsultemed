@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
  * @author edmar soares de lima
  *
  */
-@NoArgsConstructor
+
 @EqualsAndHashCode
 @Entity
 @Table(name = "usuario")
@@ -34,7 +34,6 @@ public class Usuario implements Serializable{
 	private Long id;
 	
 	@Column()
-//	@Length(min=10, max=20, message="O nome não pode ser vazio")
 	private String nome;
 	
 	@Length(min=8, max=50, message="O Email de acesso não pode ser vazio")

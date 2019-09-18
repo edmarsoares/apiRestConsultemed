@@ -21,7 +21,7 @@ import com.edmar.apiconsultemed.medico.dto.MedicoCreateDTO;
 import com.edmar.apiconsultemed.medico.service.MedicoService;
 
 @RestController
-@RequestMapping("/medicos")
+@RequestMapping("api/medicos")
 public class MedicoResource {
 	
 	@Autowired

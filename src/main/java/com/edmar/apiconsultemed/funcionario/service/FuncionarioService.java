@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.edmar.apiconsultemed.funcionario.Funcionario;
+import com.edmar.apiconsultemed.funcionario.exception.FuncionarioException;
 import com.edmar.apiconsultemed.funcionario.infraestructure.FuncionarioRepository;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
+import com.edmar.apiconsultemed.pessoa.service.PessoaService;
 import com.edmar.apiconsultemed.service.ServicoGenerico;
 import com.edmar.apiconsultemed.usuario.service.UsuarioService;
 
@@ -25,6 +27,9 @@ public class FuncionarioService extends ServicoGenerico<Funcionario, Long> {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private PessoaService pessoaService;
 
 	@Override
 	public GenericRepository<Funcionario, Long> getRepository() {
@@ -46,14 +51,12 @@ public class FuncionarioService extends ServicoGenerico<Funcionario, Long> {
 	}
 
 	@Transactional
-	public String salvarFuncionario(Funcionario funcionario) {
-		String mensagemUsuario = this.usuarioService.prepararParaPersistir(funcionario.getPessoa().getUsuario());
+	public void salvar(final Funcionario funcionario) {
 		
-		if (mensagemUsuario.equals("")) {
-			this.funcionarioRepository.save(funcionario);
-			return "";
-		}
+		this.usuarioService.prepararParaPersistir(funcionario.getPessoa().getUsuario());
 		
-		return mensagemUsuario;
+		this.pessoaService.verificarExistenciaCpf(funcionario.getPessoa());
+		
+		this.funcionarioRepository.save(funcionario);
 	}
 }

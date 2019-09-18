@@ -3,7 +3,7 @@ package com.edmar.apiconsultemed.medico.dto;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.edmar.apiconsultemed.usuario.Pessoa;
+import com.edmar.apiconsultemed.pessoa.Pessoa;
 
 import lombok.Data;
 @Data

@@ -2,17 +2,18 @@ package com.edmar.apiconsultemed.paciente;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.Valid;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.edmar.apiconsultemed.usuario.Pessoa;
+import com.edmar.apiconsultemed.pessoa.Pessoa;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,8 +36,8 @@ public class Paciente implements Serializable {
 	@Length(min=3, max=20, message="O prontuario não pode ser vazio")
 	private String prontuario;
 	
-	@Embedded
-	@Valid
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
 
 }

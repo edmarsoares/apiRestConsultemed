@@ -14,7 +14,9 @@ import org.springframework.util.StringUtils;
 import com.edmar.apiconsultemed.consulta.service.ConsultaService;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
 import com.edmar.apiconsultemed.medico.Medico;
+import com.edmar.apiconsultemed.medico.exception.MedicoException;
 import com.edmar.apiconsultemed.medico.infraestructure.MedicoRepository;
+import com.edmar.apiconsultemed.pessoa.service.PessoaService;
 import com.edmar.apiconsultemed.service.ServicoGenerico;
 import com.edmar.apiconsultemed.usuario.service.UsuarioService;
 
@@ -29,6 +31,9 @@ public class MedicoService extends ServicoGenerico<Medico, Long> {
 	
 	@Autowired
 	private ConsultaService consultaService;
+	
+	@Autowired
+	private PessoaService pessoaService;
 	
 	@Override
 	public GenericRepository<Medico, Long> getRepository() {
@@ -50,10 +55,13 @@ public class MedicoService extends ServicoGenerico<Medico, Long> {
 	}
 
 	@Transactional
-	@Override
 	public void salvar(final Medico medico) {
-		this.usuarioService.prepararParaPersisti(medico.getPessoa().getUsuario());
-		this.medicoRepository.save(medico);		
+		
+		this.usuarioService.prepararParaPersistir(medico.getPessoa().getUsuario());
+		
+		this.pessoaService.verificarExistenciaCpf(medico.getPessoa());
+		
+		this.medicoRepository.save(medico);
 	}
 	
 }

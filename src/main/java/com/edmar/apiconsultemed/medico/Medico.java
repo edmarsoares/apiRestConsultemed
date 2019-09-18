@@ -5,18 +5,18 @@ package com.edmar.apiconsultemed.medico;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-import com.edmar.apiconsultemed.usuario.Pessoa;
+import com.edmar.apiconsultemed.pessoa.Pessoa;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,11 +38,10 @@ public class Medico implements Serializable{
 	private Long id;
 	
 	@Column(name = "CRM")
-	@NotBlank(message = "O crm pode ser vazio")
 	private String crm;
 	
-	@Embedded
-	@Valid
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
-
+	
 }
