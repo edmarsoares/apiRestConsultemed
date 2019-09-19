@@ -47,7 +47,7 @@ public class ConsultaResource {
 	
 	@PutMapping
 	public ResponseEntity<?> atualizar(@RequestBody Consulta consulta){
-		this.consultaService.salvar(consulta);		
+		this.consultaService.editar(consulta);		
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	

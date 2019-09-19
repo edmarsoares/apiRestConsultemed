@@ -18,8 +18,9 @@ public interface ConsultaRepository extends GenericRepository<Consulta, Long>{
 			" from Consulta con INNER JOIN con.agendamento as agen " + 
 			" where agen.dataAgendamento = :dataAgendamento " + 
 			" and agen.horaAgendamento = :hora " + 
-			" and con.medico.id = :id")
-	boolean existeConsultaComHoraEData(@Param("dataAgendamento") final LocalDate agendamento, @Param("hora") final LocalTime horaAgendamento, @Param("id") final Long idMedico);
+			" and con.medico.id = :id ")
+	boolean existeConsultaComHoraEData(@Param("dataAgendamento") final LocalDate agendamento, @Param("hora") final LocalTime horaAgendamento, 
+									   @Param("id") final Long idMedico);
 	
 	@Query("SELECT c FROM Consulta c INNER JOIN c.agendamento as agen WHERE " + 
 			" agen.dataAgendamento = :agendamento")
