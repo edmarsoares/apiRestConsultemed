@@ -12,17 +12,17 @@ import com.edmar.apiconsultemed.consulta.Consulta;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
 
 @Repository
-public interface ConsultaRepository extends GenericRepository<Consulta, Long>{
+public interface ConsultaRepository extends GenericRepository<Consulta, Long>, ConsultaRepositoryCustom{
 	
-	@Query("select case when (count(con) > 0) then true else false end " + 
-			" from Consulta con INNER JOIN con.agendamento as agen " + 
-			" where agen.dataAgendamento = :dataAgendamento " + 
-			" and agen.horaAgendamento = :hora " + 
-			" and con.medico.id = :id ")
-	boolean existeConsultaComHoraEData(@Param("dataAgendamento") final LocalDate agendamento, @Param("hora") final LocalTime horaAgendamento, 
-									   @Param("id") final Long idMedico);
-	
-	@Query("SELECT c FROM Consulta c INNER JOIN c.agendamento as agen WHERE " + 
+//	@Query("select case when (count(con) > 0) then true else false end " + 
+//			" from Consulta con INNER JOIN con.agendamento as agen " + 
+//			" where agen.dataAgendamento = :dataAgendamento " + 
+//			" and agen.horaAgendamento = :hora " + 
+//			" and con.medico.id = :id ")
+//	boolean existeConsultaComHoraEData(@Param("dataAgendamento") final LocalDate agendamento, @Param("hora") final LocalTime horaAgendamento, 
+//									   @Param("id") final Long idMedico);
+//	
+	@Query("SELECT c FROM Consulta c INNER JOIN c.agendamento as agen WHERE " +  
 			" agen.dataAgendamento = :agendamento")
 	List<Consulta> buscarPorDataAgendamento( @Param("agendamento") final LocalDate dataAgendamento);
 	

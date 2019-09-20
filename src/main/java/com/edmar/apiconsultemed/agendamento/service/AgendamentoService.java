@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.edmar.apiconsultemed.agendamento.Agendamento;
 import com.edmar.apiconsultemed.agendamento.StatusAgendamento;
+import com.edmar.apiconsultemed.agendamento.exception.AgendamentoException;
 import com.edmar.apiconsultemed.agendamento.infraestructure.AgendamentoRepository;
+import com.edmar.apiconsultemed.consulta.Consulta;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
 import com.edmar.apiconsultemed.service.ServicoGenerico;
 
@@ -25,19 +27,18 @@ public class AgendamentoService extends ServicoGenerico<Agendamento, Long>{
 	}
 
 	@Transactional
-	public String cancelarAgendamento(final Long id) {
+	public void cancelarAgendamento(final Long id) {
 		// TODO Auto-generated method stub
 		final Optional<Agendamento> agendamentoFromDB = this.buscarPorId(id);
-		
+
 		if (agendamentoFromDB == null) {
-			return "";
+			throw new AgendamentoException("Não existe um agendamento com este identificador!");
 		}
-		
+
 		agendamentoFromDB.get().setStatus(StatusAgendamento.CANCELADO);
-		
+
 		this.salvar(agendamentoFromDB.get());
-		
-		return "Agendamento cancelado";
+
 	}
 
 }

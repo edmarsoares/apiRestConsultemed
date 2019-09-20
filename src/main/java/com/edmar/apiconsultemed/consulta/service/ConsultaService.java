@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.edmar.apiconsultemed.agendamento.Agendamento;
 import com.edmar.apiconsultemed.agendamento.StatusAgendamento;
 import com.edmar.apiconsultemed.consulta.Consulta;
 import com.edmar.apiconsultemed.consulta.exception.ConsultaException;
 import com.edmar.apiconsultemed.consulta.infraestructure.ConsultaRepository;
 import com.edmar.apiconsultemed.infraestructure.GenericRepository;
+import com.edmar.apiconsultemed.service.EmailService;
 import com.edmar.apiconsultemed.service.ServicoGenerico;
 import com.edmar.apiconsultemed.usuario.service.UsuarioService;
 
@@ -26,6 +26,9 @@ public class ConsultaService extends ServicoGenerico<Consulta, Long> {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@Override
 	public GenericRepository<Consulta, Long> getRepository() {
@@ -72,7 +75,7 @@ public class ConsultaService extends ServicoGenerico<Consulta, Long> {
 
 		final String emailFromPaciente = consulta.getAgendamento().getPaciente().getPessoa().getUsuario().getLogin();
 
-		this.usuarioService.sendMail(emailFromPaciente, consulta.getAgendamento());
+		this.emailService.sendMail(emailFromPaciente, consulta.getAgendamento());
 		this.consultaRepository.save(consulta);
 
 	}
@@ -86,7 +89,7 @@ public class ConsultaService extends ServicoGenerico<Consulta, Long> {
 
 		final String emailFromPaciente = consulta.getAgendamento().getPaciente().getPessoa().getUsuario().getLogin();
 
-		this.usuarioService.sendMail(emailFromPaciente, consulta.getAgendamento());
+		this.emailService.sendMail(emailFromPaciente, consulta.getAgendamento());
 		this.consultaRepository.save(consulta);
 
 	}
@@ -117,22 +120,6 @@ public class ConsultaService extends ServicoGenerico<Consulta, Long> {
 				throw new ConsultaException("Já existe uma consulta nesta data e hora para este médico");
 			}
 		}
-	}
-
-	@Transactional
-	public String cancelarAgendamento(final Long id) {
-		// TODO Auto-generated method stub
-		final Optional<Consulta> consultaFromDB = this.buscarPorId(id);
-
-		if (consultaFromDB == null) {
-			return "";
-		}
-
-		consultaFromDB.get().getAgendamento().setStatus(StatusAgendamento.CANCELADO);
-
-		this.salvar(consultaFromDB.get());
-
-		return "Consulta cancelada";
 	}
 
 	@Transactional(readOnly = true)
